@@ -12,6 +12,9 @@ public class PlayerController : MonoBehaviour
     private bool isOnGround = true;
     public bool gameOver = false;
     private Animator playerAnim;
+    public AudioClip jumpSound;
+    public AudioClip crashSound;
+    private AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +22,7 @@ public class PlayerController : MonoBehaviour
         playerRB = GetComponent<Rigidbody>();
         Physics.gravity *= gravityModifer;
         playerAnim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -29,6 +33,7 @@ public class PlayerController : MonoBehaviour
             isOnGround = false;
             playerAnim.SetTrigger("Jump_trig");
             particleDirt.Stop();
+            audioSource.PlayOneShot(jumpSound, 1.0f);
         }
     }
 
@@ -45,6 +50,7 @@ public class PlayerController : MonoBehaviour
             playerAnim.SetInteger("DeathType_int", 1);
             particleExplosion.Play();
             particleDirt.Stop();
+            audioSource.PlayOneShot(crashSound, 1.0f);
         }
     }
 }
