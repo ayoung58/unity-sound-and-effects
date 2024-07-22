@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody playerRB;
+    public ParticleSystem particleExplosion;
     public float jumpForce = 10.0f;
     public float gravityModifer = 1.0f;
     private bool isOnGround = true;
@@ -37,6 +38,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Game Over!");
             playerAnim.SetBool("Death_b", true);
             playerAnim.SetInteger("DeathType_int", 1);
+            particleExplosion.Play();
         }
     }
 }
