@@ -16,9 +16,9 @@ public class PlayerControllerX : MonoBehaviour
     private AudioSource playerAudio;
     public AudioClip moneySound;
     public AudioClip explodeSound;
+    public AudioClip bounceSound;
     public GameObject background;
     private float backgroundHeight;
-    private float offsetHeight = 3;
 
 
     // Start is called before the first frame update
@@ -38,7 +38,7 @@ public class PlayerControllerX : MonoBehaviour
     void Update()
     {
         // While space is pressed and player is low enough, float up
-        if (Input.GetKey(KeyCode.Space) && !gameOver && (transform.position.y < backgroundHeight - offsetHeight))
+        if (Input.GetKey(KeyCode.Space) && !gameOver && (transform.position.y < backgroundHeight))
         {
             playerRb.AddForce(Vector3.up * floatForce);
         }
@@ -63,6 +63,14 @@ public class PlayerControllerX : MonoBehaviour
             playerAudio.PlayOneShot(moneySound, 1.0f);
             Destroy(other.gameObject);
 
+        } else if (other.gameObject.CompareTag("Ground")) {
+            if (!gameOver) {
+                playerAudio.PlayOneShot(bounceSound, 1.0f);
+                playerRb.AddForce(Vector3.up * 10, ForceMode.Impulse);
+            } else {
+                Destroy(gameObject);
+            }
+            
         }
 
     }
